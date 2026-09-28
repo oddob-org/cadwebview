@@ -13,3 +13,7 @@ deliver/
 
 # 调试符号
 *.pdb
+
+# 本地文档（仅本地保留，不随仓库分发）
+/CadWebView开发文档.md
+/GitHub代码推送流程.md

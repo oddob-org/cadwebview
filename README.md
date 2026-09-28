@@ -304,8 +304,6 @@ flowchart TD
 2. **平台差异集中在一小段适配代码** —— 三家 API 同形，`#if ACAD / ZWCAD / GSTARCAD` + `global using` 别名即可复用，无需写三遍。
 3. **每「平台 × 运行时家族」产出一份 DLL** —— 由各自的加载机制分发；AutoCAD 侧交由 `PackageContents.xml` 版本段自动筛选。
 
-更深入的落地细节、版本编号对照与实测记录见 [CadWebView开发文档.md](CadWebView开发文档.md)。
-
 ---
 
 ## 常见问题

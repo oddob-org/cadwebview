@@ -304,8 +304,6 @@ flowchart TD
 2. **Platform differences live in a small adapter** — the three APIs are shape-identical, so `#if ACAD / ZWCAD / GSTARCAD` plus `global using` aliases reuse one source instead of three copies.
 3. **One DLL per platform × runtime family** — distributed by each CAD's own loading mechanism; on AutoCAD, `PackageContents.xml` version ranges pick the right one automatically.
 
-For deeper implementation notes, version-number mappings and test records, see the development document (Chinese): [CadWebView开发文档.md](CadWebView开发文档.md).
-
 ---
 
 ## FAQ
