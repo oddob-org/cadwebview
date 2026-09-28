@@ -24,10 +24,10 @@ public sealed class CadWebViewConfig
     public const string LaunchModeWindow = "window";
 
     /// <summary>
-    /// 启动形态：<c>panel</c> = 可停靠面板（默认），<c>window</c> = 无模式窗口。
+    /// 启动形态：<c>panel</c> = 可停靠面板，<c>window</c> = 无模式窗口（默认）。
     /// 命令内不再交互选择，一律由本项决定。
     /// </summary>
-    public string LaunchMode { get; set; } = LaunchModePanel;
+    public string LaunchMode { get; set; } = LaunchModeWindow;
 
     /// <summary>是否以无模式窗口形态启动。</summary>
     public bool OpenAsWindow =>
@@ -37,10 +37,10 @@ public sealed class CadWebViewConfig
     public bool OpenNewWindowInSystemBrowser { get; set; } = true;
 
     /// <summary>面板默认宽度。</summary>
-    public int PanelWidth { get; set; } = 400;
+    public int PanelWidth { get; set; } = 1920;
 
     /// <summary>面板默认高度。</summary>
-    public int PanelHeight { get; set; } = 600;
+    public int PanelHeight { get; set; } = 1080;
 
     /// <summary>加载失败时显示的降级页；为空则显示内置错误页。</summary>
     public string FallbackUrl { get; set; } = string.Empty;
