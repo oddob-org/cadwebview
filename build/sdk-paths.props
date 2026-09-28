@@ -1,0 +1,24 @@
+<!--
+  三家 CAD SDK 路径集中配置。
+  可通过环境变量或命令行覆盖，例如：
+    dotnet build /p:CadWebViewSdkRoot=E:\SDK
+  说明：路径指向各 SDK 内托管程序集（*.Mgd.dll / Zw*.dll）所在目录。
+-->
+<Project>
+
+  <PropertyGroup>
+    <CadWebViewSdkRoot Condition="'$(CadWebViewSdkRoot)' == ''">D:\SDK</CadWebViewSdkRoot>
+
+    <!-- AutoCAD ObjectARX（Fx 家族用 2016，net8 用 2025，net10 用 2027） -->
+    <ARX_2016 Condition="'$(ARX_2016)' == ''">$(CadWebViewSdkRoot)\ARX\2016\inc</ARX_2016>
+    <ARX_2025 Condition="'$(ARX_2025)' == ''">$(CadWebViewSdkRoot)\ARX\2025\inc</ARX_2025>
+    <ARX_2027 Condition="'$(ARX_2027)' == ''">$(CadWebViewSdkRoot)\ARX\2027\inc</ARX_2027>
+
+    <!-- 中望 ZWCAD -->
+    <ZWCAD_2025 Condition="'$(ZWCAD_2025)' == ''">$(CadWebViewSdkRoot)\ZCAD\2025\inc</ZWCAD_2025>
+
+    <!-- 浩辰 GstarCAD（SDK 无 2025，用 2026 作为最低可用版本） -->
+    <GSTAR_2026 Condition="'$(GSTAR_2026)' == ''">$(CadWebViewSdkRoot)\Gstar\2026\grxsdk\inc</GSTAR_2026>
+  </PropertyGroup>
+
+</Project>

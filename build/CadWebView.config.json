@@ -1,0 +1,7 @@
+{
+  "startUrl": "about:blank",
+  "fallbackUrl": "",
+  "openNewWindowInSystemBrowser": true,
+  "panelWidth": 400,
+  "panelHeight": 600
+}

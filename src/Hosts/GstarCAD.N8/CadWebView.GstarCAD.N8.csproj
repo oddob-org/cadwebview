@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\build\sdk-paths.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <AssemblyName>CadWebView.GstarCAD.N8</AssemblyName>
+    <RootNamespace>CadWebView</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DefineConstants>$(DefineConstants);GSTARCAD;N8</DefineConstants>
+    <!-- 实测：GstarCAD SDK 2026/2027 托管程序集 TFM 均为 net8（2025 SDK 缺失，用 2026 编译） -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="GcMgd">
+      <HintPath>$(GSTAR_2026)\GcMgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GcCoreMgd">
+      <HintPath>$(GSTAR_2026)\GcCoreMgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GcDbMgd">
+      <HintPath>$(GSTAR_2026)\GcDbMgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Host.Shared\**\*.cs" Link="Host.Shared\%(RecursiveDir)%(Filename)%(Extension)" />
+    <ProjectReference Include="..\..\Core\CadWebView.Core.csproj" />
+  </ItemGroup>
+
+</Project>

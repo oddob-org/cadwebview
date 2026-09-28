@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\build\sdk-paths.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyName>CadWebView.AutoCAD.Fx</AssemblyName>
+    <RootNamespace>CadWebView</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DefineConstants>$(DefineConstants);ACAD;FX</DefineConstants>
+    <!-- 覆盖 AutoCAD 2016–2024（.NET Framework 家族）；WebView2 托管包最低只支持 net462 -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 平台程序集一律 Private=false，不得拷入交付目录 -->
+    <Reference Include="AcMgd">
+      <HintPath>$(ARX_2016)\AcMgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="AcCoreMgd">
+      <HintPath>$(ARX_2016)\AcCoreMgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="AcDbMgd">
+      <HintPath>$(ARX_2016)\AcDbMgd.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- PaletteSet 继承链涉及 WPF 类型 -->
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Host.Shared\**\*.cs" Link="Host.Shared\%(RecursiveDir)%(Filename)%(Extension)" />
+    <ProjectReference Include="..\..\Core\CadWebView.Core.csproj" />
+  </ItemGroup>
+
+</Project>

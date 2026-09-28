@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AutoCAD AppBundle 清单：按宿主版本段自动挑选对应运行时的 DLL。
+  @AppVersion@ 由 build-all.ps1 替换为实际版本号。
+  Series 编号对照：2016=R20.0 … 2024=R24.3、2025=R25.0、2026=R25.1、2027=R26.0。
+  注意：RuntimeRequirements 必须写在 ComponentEntry 内部（同级写法不会生效）。
+-->
+<ApplicationPackage SchemaVersion="1.0"
+                    Name="CadWebView"
+                    AppVersion="@AppVersion@"
+                    ProductCode="{1620499E-80CC-42C5-BDF9-235E796B0D49}"
+                    Description="CadWebView - 在 CAD 内打开网页（面板 / 无模式窗口）">
+  <CompanyDetails Name="CadWebView" />
+
+  <Components>
+    <!-- .NET Framework 4.x：AutoCAD 2016–2024 -->
+    <ComponentEntry AppName="CadWebView"
+                    Version="@AppVersion@"
+                    AppType=".NET"
+                    ModuleName="./Contents/Fx/CadWebView.AutoCAD.Fx.dll"
+                    LoadOnAutoCADStartup="True">
+      <RuntimeRequirements OS="Win64" Platform="AutoCAD*" SeriesMin="R20.0" SeriesMax="R24.3" />
+    </ComponentEntry>
+
+    <!-- .NET 8：AutoCAD 2025–2026 -->
+    <ComponentEntry AppName="CadWebView"
+                    Version="@AppVersion@"
+                    AppType=".NET"
+                    ModuleName="./Contents/N8/CadWebView.AutoCAD.N8.dll"
+                    LoadOnAutoCADStartup="True">
+      <RuntimeRequirements OS="Win64" Platform="AutoCAD*" SeriesMin="R25.0" SeriesMax="R25.1" />
+    </ComponentEntry>
+
+    <!-- .NET 10：AutoCAD 2027 -->
+    <ComponentEntry AppName="CadWebView"
+                    Version="@AppVersion@"
+                    AppType=".NET"
+                    ModuleName="./Contents/N10/CadWebView.AutoCAD.N10.dll"
+                    LoadOnAutoCADStartup="True">
+      <RuntimeRequirements OS="Win64" Platform="AutoCAD*" SeriesMin="R26.0" />
+    </ComponentEntry>
+  </Components>
+</ApplicationPackage>
