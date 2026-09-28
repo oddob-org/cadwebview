@@ -1,7 +1,19 @@
 {
+  // 默认打开的页面：在线 URL 或本地资源相对路径；about:blank 表示空白页
   "startUrl": "about:blank",
+
+  // 启动形态：panel = 可停靠面板（默认），window = 无模式窗口
+  "launchMode": "panel",
+
+  // 加载失败时的降级页地址；留空则显示内置错误页
   "fallbackUrl": "",
+
+  // 页面中新窗口请求（如 target=_blank）是否转交系统默认浏览器，转交 = true ，不转交 = false
   "openNewWindowInSystemBrowser": true,
+
+  // 面板默认宽度（像素，需大于 0）
   "panelWidth": 400,
+
+  // 面板默认高度（像素，需大于 0）
   "panelHeight": 600
 }
