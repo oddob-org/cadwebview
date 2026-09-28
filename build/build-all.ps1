@@ -4,6 +4,7 @@
      1) 编译整个解决方案（Core 三个运行时家族 + 各平台 Host）
      2) 按 §7.2 结构汇总到 deliver/：
         · CadWebView.bundle/    AutoCAD：整目录复制到 ApplicationPlugins 即自动加载
+        · AutoCAD/               AutoCAD：Fx / N8 / N10 各一份，供 NETLOAD 手动加载
         · ZWCAD/  GstarCAD/      中望 / 浩辰：各一份，由各自机制加载
 
      浏览器内核为 WebView2（Chromium），需目标机器存在 WebView2 Runtime
@@ -83,11 +84,17 @@ function Copy-PluginPayload([string]$binDir, [string]$targetDir) {
         throw "缺少 WebView2Loader.dll：$loader"
     }
     Copy-Item -LiteralPath $loader -Destination $targetDir -Force
+}
 
-    # 同时保留 WebView2 包约定的目录结构
-    $loaderDir = Join-Path $targetDir 'runtimes\win-x64\native'
-    New-Item -ItemType Directory -Path $loaderDir -Force | Out-Null
-    Copy-Item -LiteralPath $loader -Destination $loaderDir -Force
+# 本地 HTML 资源随插件目录分发，相对路径按 <插件目录>\Web\<file> 解析
+function Copy-WebAssets([string]$targetDir) {
+    if (-not (Test-Path -LiteralPath $webDir)) {
+        return
+    }
+
+    $dest = Join-Path $targetDir 'Web'
+    New-Item -ItemType Directory -Path $dest -Force | Out-Null
+    Copy-Item -Path (Join-Path $webDir '*') -Destination $dest -Recurse -Force
 }
 
 # ---------------------------------------------------------------- 1. 编译
@@ -133,17 +140,25 @@ foreach ($platform in $others) {
     Write-Step ("打包 {0}" -f $platform.Dir)
     $targetDir = Join-Path $deliverDir $platform.Dir
     Copy-PluginPayload (Get-HostBinDir $platform.Project $platform.Tfm) $targetDir
-
-    if (Test-Path -LiteralPath $webDir) {
-        $platformWeb = Join-Path $targetDir 'Web'
-        New-Item -ItemType Directory -Path $platformWeb -Force | Out-Null
-        Copy-Item -Path (Join-Path $webDir '*') -Destination $platformWeb -Recurse -Force
-    }
+    Copy-WebAssets $targetDir
 
     Write-Host ("    {0}\" -f $platform.Dir)
 }
 
-# ---------------------------------------------------------------- 5. 汇总
+# ---------------------------------------------------------------- 5. 打包 AutoCAD 手动加载目录
+# 与 ZWCAD / GstarCAD 同为扁平单版本结构，便于用 NETLOAD 逐个手动加载；
+# 三个运行时家族各占一个子目录，按 CAD 版本选择其一即可。
+$manualRoot = Join-Path $deliverDir 'AutoCAD'
+foreach ($family in $families) {
+    Write-Step ("打包 AutoCAD\{0}（手动加载）" -f $family.Dir)
+    $targetDir = Join-Path $manualRoot $family.Dir
+    Copy-PluginPayload (Get-HostBinDir $family.Project $family.Tfm) $targetDir
+    Copy-WebAssets $targetDir
+
+    Write-Host ("    AutoCAD\{0}\" -f $family.Dir)
+}
+
+# ---------------------------------------------------------------- 6. 汇总
 Write-Step '产物清单'
 Get-ChildItem -LiteralPath $deliverDir -Recurse -File |
     ForEach-Object {
@@ -154,5 +169,6 @@ Get-ChildItem -LiteralPath $deliverDir -Recurse -File |
 Write-Host ''
 Write-Host '打包完成。' -ForegroundColor Green
 Write-Host ("  AutoCAD ：把 {0} 整个目录复制到 `%APPDATA%\Autodesk\ApplicationPlugins\" -f $bundleDir)
+Write-Host ("  AutoCAD（手动）：NETLOAD {0}\AutoCAD\Fx|N8|N10\CadWebView.AutoCAD.*.dll（按 CAD 版本选一个）" -f $deliverDir)
 Write-Host ("  中望/浩辰：将 {0}\ZWCAD 或 {0}\GstarCAD 下的 DLL 由各自机制加载" -f $deliverDir)
 Write-Host '  运行前提：目标机器需存在 Microsoft Edge WebView2 Runtime'
