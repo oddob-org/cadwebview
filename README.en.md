@@ -330,9 +330,7 @@ No. Artifacts are framework-dependent; the machine only needs the matching .NET 
 
 ## Known Limitations and Roadmap
 
-- **Limited field testing** — only AutoCAD 2018 / 2024 (`Fx`) and 2026 (`N8`) are verified on real hosts; 2016 / 2021 / 2025 / 2027 plus ZWCAD and GstarCAD still need per-version testing.
-- **AutoCAD 2026 mapping undecided** — its SDK is already .NET 10, but the build currently maps it to `N8` (relying on runtime roll-forward, which is fragile). A decision to move it to `N10` awaits testing.
-- **LISP function unverified on domestic platforms** — `LispFunction` compiles on ZWCAD / GstarCAD, but runtime registration and invocation still need a test on each.
+- **Limited field testing** — only AutoCAD 2016 / 2018 / 2020 / 2022 / 2024 (`Fx`), 2026 (`N8`) and ZWCAD 2025 / 2026 / 2027 are verified on real hosts; GstarCAD still needs per-version testing.
 - **WebView2 Runtime dependency** — without it, nothing renders (a notice page is shown).
 - **Out of scope for now** — Ribbon / menu / status bar serve only as launchers, not containers; drawing-area overlays, in-drawing entities and drawing hyperlinks are not implemented; no installer is provided.
 
