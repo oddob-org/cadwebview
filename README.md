@@ -108,7 +108,7 @@ $env:CadWebViewSdkRoot = 'E:\SDK'
 ### 2. 获取代码
 
 ```powershell
-git clone <本仓库地址> oddob-cadwebview
+git clone git@github.com:oddob-org/cadwebview.git oddob-cadwebview
 cd oddob-cadwebview
 ```
 
